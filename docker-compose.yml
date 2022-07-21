@@ -1,0 +1,16 @@
+version: "3.9"
+services:
+  backend:
+    build: .
+    container_name: backend_todo
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - SECRET_KEY="test"
+      - DEBUG=True
+      - ALLOWED_HOSTS=.0.0.0.0,127.0.0.1
+
+ 
