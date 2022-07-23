@@ -1,0 +1,123 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>SignUp</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="icon" type="image/png" href="{% static 'img/icons/favicon.ico' %}" />
+
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" />
+
+    <link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}" />
+
+    <link rel="stylesheet" type="text/css" href="{% static 'fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}" />
+
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/animate/animate.css' %}" />
+
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/css-hamburgers/hamburgers.min.css' %}" />
+
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/animsition/css/animsition.min.css' %}" />
+
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/select2/select2.min.css' %}" />
+
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/daterangepicker/daterangepicker.css' %}" />
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/login-util.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/login-main.css' %}" />
+
+    <meta name="robots" content="noindex, follow" />
+</head>
+
+<body>
+
+    <div class="limiter">
+        <div class="container-login100">
+            <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
+                <form class="login100-form validate-form" method="post" action="{% url 'accounts:register' %}">
+                    {% csrf_token %}
+                     <span class="login100-form-title p-b-33" > Account Signup </span> 
+                    <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
+                        <input class="input100" type="email" name="email" placeholder="Email" required />
+                
+                    </div>
+                    <div class="wrap-input100 validate-input">
+                        <input id="InputUsername" class="input100" type="text" name="username" placeholder="Username" required />
+                
+                    </div>
+                    <div class="wrap-input100 rs1 validate-input" data-validate="Password is required">
+                        <input class="input100" type="password" name="password1" placeholder="Password"  required/>
+                        <span class="focus-input100-1"></span>
+                        <span class="focus-input100-2"></span>
+                    </div>
+                    <div class="wrap-input100 rs1 validate-input" data-validate="Password is required">
+                        <input class="input100" type="password" name="password2" placeholder="Confirm Password" required />
+                        <span class="focus-input100-1"></span>
+                        <span class="focus-input100-2"></span>
+                    </div>
+                    <div class="container-login100-form-btn m-t-20"> 
+                       
+                       
+                        <button class="login100-form-btn" type="submit">Sign Up </button>
+                        <div>{% if form.errors %}
+                        
+                        <div class="alert alert-error">
+                            <h6>Please fix the following errors</h6>
+                            <ul>
+                                {% for field in form %}
+                                {% if field.errors %}
+                                {% for error in field.errors %}
+                                <li><a href="#id_{{ field.name }}" class="error">{{ error|escape }}</a></li>
+                                {% endfor %}
+                                {% endif %}
+                                {% endfor %}
+                            </ul>
+                            {% if form.non_field_errors %}
+                            {{ form.non_field_errors }}
+                            {% endif %}
+                            {% endif %}
+                        </div>
+                        
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+
+    <script src="{% static 'vendor/animsition/js/animsition.min.js' %}"></script>
+
+    <script src="{% static 'vendor/bootstrap/js/popper.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+
+    <script src="{% static 'vendor/select2/select2.min.js' %}"></script>
+
+    <script src="{% static 'vendor/daterangepicker/moment.min.js' %}"></script>
+    <script src="{% static 'vendor/daterangepicker/daterangepicker.js' %}"></script>
+
+    <script src="{% static 'vendor/countdowntime/countdowntime.js' %}"></script>
+
+    <script src="{% static 'js/login-main.js' %}"></script>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag("js", new Date());
+
+        gtag("config", "UA-23581568-13");
+    </script>
+    <script defer
+        src="https://static.cloudflareinsights.com/beacon.min.js/v652eace1692a40cfa3763df669d7439c1639079717194"
+        integrity="sha512-Gi7xpJR8tSkrpF7aordPZQlW2DLtzUlZcumS8dMQjwDHEnw9I7ZLyiOj/6tZStRBGtGgN6ceN6cMH8z7etPGlw=="
+        data-cf-beacon='{"rayId":"71177e1ab82a9113","token":"cd0b4b3a733644fc843ef0b185f98241","version":"2021.12.0","si":100}'
+        crossorigin="anonymous"></script>
+</body>
+
+</html> 
+
