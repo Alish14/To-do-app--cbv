@@ -5,7 +5,12 @@ from django.urls import reverse_lazy
 from django.contrib.auth import login,logout
 from django.shortcuts import redirect
 from django.views.generic import View
+"""
+Create CustomLoginView view 
+for User login
 
+
+"""
 
 class CustomLoginView(LoginView):
     template_name = "accounts/login.html"
@@ -15,7 +20,12 @@ class CustomLoginView(LoginView):
     def get_success_url(self):
         return reverse_lazy("todo:list_task")
 
+"""
 
+Create RegisterPage for User register and use
+django.contrib.auth.forms form for User Creation
+
+"""
 class RegisterPage(FormView):
     template_name = "accounts/register.html"
     form_class = UserCreationForm
@@ -32,6 +42,11 @@ class RegisterPage(FormView):
         if self.request.user.is_authenticated:
             return redirect("todo:list_task")
         return super(RegisterPage, self).get(*args, **kwargs)
+"""
+LogoutView For User logout 
+
+
+"""
 class LogoutView(View):
     def get(self, request):
         logout(request)

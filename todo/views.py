@@ -6,7 +6,9 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-
+"""
+TaskList View for show user Task and user Task model 
+"""
 class TaskList(LoginRequiredMixin,ListView):
     model=Task
     context_object_name="tasks"
@@ -14,7 +16,10 @@ class TaskList(LoginRequiredMixin,ListView):
     template_name="todo/list_task.html"
     def get_queryset(self):
         return self.model.objects.filter(user=self.request.user)
+"""
+CreateTask  : User model task for Create user task by form
 
+"""
 class CreateTask(LoginRequiredMixin,CreateView):
     model=Task
     fields = ("title",)
@@ -23,14 +28,20 @@ class CreateTask(LoginRequiredMixin,CreateView):
     def form_valid(self,form):
         form.instance.user = self.request.user
         return super(CreateTask, self).form_valid(form)
+ """
+ TaskEdit: Edit User Task 
  
+ """
 class TaskEdit(LoginRequiredMixin,UpdateView):
     model=Task
     form_class=TaskUpdate
     success_url = reverse_lazy("todo:list_task")
     template_name="todo/update_task.html"
 
+"""
 
+TaskComplete:Task Create User Task
+"""
 class TaskComplete(LoginRequiredMixin,View):
     model = Task
     success_url = reverse_lazy("todo:list_task")
@@ -41,7 +52,9 @@ class TaskComplete(LoginRequiredMixin,View):
         object.save()
         return redirect(self.success_url)
 
-
+"""
+DeleteTask: Delete User Task
+"""
 class DeleteTask(LoginRequiredMixin,DeleteView):
     model = Task
     context_object_name = "task"
