@@ -32,7 +32,7 @@ if DEBUG:
 
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=lambda v: [
-                       s.strip() for s in v.split(',')], default='0.0.0.0')
+                       s.strip() for s in v.split(',')], default="*")
 
 
 # Application definition
@@ -45,7 +45,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'todo',
-    # 'rest_framework'
+    'rest_framework',
+    'django_filters',
+
 ]
 
 MIDDLEWARE = [
@@ -63,7 +65,7 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS':[BASE_DIR/'templates',],
+        'DIRS': [BASE_DIR/'templates', ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -136,3 +138,8 @@ MEDIA_ROOT = BASE_DIR / 'uploads'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Django rest Framwork setting
+REST_FRAMEWORK = {
+
+}
