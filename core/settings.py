@@ -27,8 +27,6 @@ SECRET_KEY = config('SECRET_KEY', default='test')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-if DEBUG:
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=lambda v: [
@@ -45,8 +43,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'todo',
+    "accounts",
     'rest_framework',
+    'rest_framework.authtoken',
     'django_filters',
+    'drf_yasg',
+    'rest_framework_simplejwt',
+    'mail_templated',
 
 ]
 
@@ -138,8 +141,25 @@ MEDIA_ROOT = BASE_DIR / 'uploads'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# user manager config
+AUTH_USER_MODEL = "accounts.User"
+
 
 # Django rest Framwork setting
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ]
 
 }
+#email setting
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = False
+EMAIL_HOST = 'smtp4dev'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
