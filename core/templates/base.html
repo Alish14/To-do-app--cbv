@@ -24,7 +24,7 @@
     <div class="col-lg-6 col-sm-6 col-6 header-top-left">
         <ul>
             {% if request.user.is_authenticated %}
-            <li><a href="#"><strong>logged in as </strong>{{request.user.username}}</a></li>
+            <li><a href="#"><strong>logged in as </strong>{{request.user.nickname}}</a></li>
             <li><a href="{% url 'accounts:logout' %}"><strong>log out </strong></a></li>
             <li><a href="{% url 'password_change' %}"><strong>Change password </strong></a></li>
 
