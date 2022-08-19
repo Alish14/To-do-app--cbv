@@ -1,7 +1,7 @@
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import RegistrationSerializer, ChangePasswordSerializer, ProfileSerializers, ActivationResendSerializer
+from .serializers import RegistrationSerializer, ChangePasswordSerializer, ProfileSerializers, ActivationResendSerializer, CustomAuthTokenSerializer
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
@@ -11,11 +11,12 @@ from django.shortcuts import get_object_or_404
 from django.core.mail import send_mail
 from mail_templated import EmailMessage
 from rest_framework_simplejwt.tokens import RefreshToken
-from ...models import User
 from ..utils import EmailThread
 import jwt
 from django.conf import settings
 from jwt.exceptions import ExpiredSignatureError,InvalidSignatureError
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 
 class RegistrationView(generics.GenericAPIView):
@@ -26,9 +27,10 @@ class RegistrationView(generics.GenericAPIView):
         if serializer.is_valid():
             serializer.save()
             email = serializer.validated_data["email"]
+            nickname = serializer.validated_data["nickname"]
 
             data={
-                # 'username':serializer.validated_data['username'],
+                'nickname':nickname,
                 "email": email
 
 
@@ -51,6 +53,7 @@ class RegistrationView(generics.GenericAPIView):
 
 
 class CustomAuthToken(ObtainAuthToken):
+    serializer_class = CustomAuthTokenSerializer
 
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data,
@@ -61,10 +64,12 @@ class CustomAuthToken(ObtainAuthToken):
         return Response({
             'token': token.key,
             'user_id': user.pk,
-            'username': user.username
+            'email': user.email,
+            'nickname': user.nickname
         })
 
 class CustomDiscardAuthToken(APIView):
+    
     permission_classes = [IsAuthenticated]
     def post(self,request):
         request.user.auth_token.delete()

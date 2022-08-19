@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import(RegistrationView,CustomAuthToken,
-                   CustomDiscardAuthToken, ChangePasswordView, ProfileApiView, EmailSendView, ActivationApiView,)
+                   CustomDiscardAuthToken, ChangePasswordView, ProfileApiView, EmailSendView, ActivationApiView,ActivationResendView)
 from rest_framework_simplejwt.views import TokenVerifyView
 
 from rest_framework_simplejwt.views import (
@@ -12,7 +12,7 @@ app_name = 'api-v1'
 urlpatterns = [
     path('change-password/',ChangePasswordView.as_view(),name='change-password'),
     path('activation/confirm/<str:token>',ActivationApiView.as_view(),name='activation'),
-    # path('activation/resend/',ActivationResendView.as_view(),name="resend_token"),
+    path('activation/resend/',ActivationResendView.as_view(),name="resend_token"),
     path('jwt/create/', TokenObtainPairView.as_view(), name='token-create'),
     path('jwt/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     path('jwt/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
