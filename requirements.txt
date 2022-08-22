@@ -13,3 +13,11 @@ djangorestframework-simplejwt
 
 #deployment modules
 django-mail-templated
+
+#refactorin and text 
+flake8
+black
+pytest
+pytest-django
+
+
