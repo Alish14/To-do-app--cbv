@@ -1,12 +1,13 @@
 from django.db import models
-from django.contrib.auth.models import(
+from django.contrib.auth.models import (
     BaseUserManager,
     AbstractBaseUser,
-    PermissionsMixin
+    PermissionsMixin,
 )
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.utils.translation import ugettext_lazy as _ 
+from django.utils.translation import ugettext_lazy as _
+
 
 class UserManager(BaseUserManager):
     """
@@ -18,14 +19,12 @@ class UserManager(BaseUserManager):
             raise ValueError("user must have an email address")
         if not nickname:
             raise ValueError("Users must have a nickname ")
-        user=self.model(
-            email=self.normalize_email(email),
-            nickname=nickname.lower()
-        )
+        user = self.model(email=self.normalize_email(email), nickname=nickname.lower())
         user.set_password(password)
         user.save(using=self._db)
         return user
-    def create_superuser(self,email,password,nickname,**extra_fields):
+
+    def create_superuser(self, email, password, nickname, **extra_fields):
         """
         create and save a SuperUser with the given email and password
         """
@@ -39,40 +38,40 @@ class UserManager(BaseUserManager):
         if extra_fields.get("is_superuser") is not True:
             raise ValueError(_("Superuser must have is_superuser=True."))
         user = self.create_user(
-        email=self.normalize_email(email),
-        nickname=nickname.lower(),
-        password=password
+            email=self.normalize_email(email),
+            nickname=nickname.lower(),
+            password=password,
         )
         return user
 
-class User(AbstractBaseUser,PermissionsMixin):
+
+class User(AbstractBaseUser, PermissionsMixin):
     """
-    Custom User Model for authentication management 
+    Custom User Model for authentication management
     """
-    email=models.EmailField(max_length=255,unique=True)
+
+    email = models.EmailField(max_length=255, unique=True)
     nickname = models.CharField(max_length=255)
-    is_superuser=models.BooleanField(default=False)
-    is_staff=models.BooleanField(default=False)
-    is_active =models.BooleanField(default=True)
-    is_verified= models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    is_verified = models.BooleanField(default=False)
     objects = UserManager()
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['nickname']
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["nickname"]
 
-
-    created_date=models.DateTimeField(auto_now_add=True)
-    updated_date=models.DateTimeField(auto_now=True)
-    
-    
-
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.email
+
 
 class Profile(models.Model):
     """
     Profile Class for each user
     """
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=250)
     last_name = models.CharField(max_length=250)
@@ -82,10 +81,10 @@ class Profile(models.Model):
     updated_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.user.email 
+        return self.user.email
 
 
-@receiver(post_save,sender=User)
+@receiver(post_save, sender=User)
 def save_profile(sender, instance, created, **kwargs):
     """
     Signal for post creating a user which activates when a user being created ONLY

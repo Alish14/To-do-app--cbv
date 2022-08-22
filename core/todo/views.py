@@ -1,10 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from .models import Task
 from .forms import TaskUpdate
-from django.views.generic import (ListView, CreateView, UpdateView, DeleteView)
-from django.urls import reverse_lazy
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy, reverse
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 """
 TaskList View for show user Task and user Task model 
@@ -13,20 +14,19 @@ TaskList View for show user Task and user Task model
 
 class TaskList(LoginRequiredMixin, ListView):
     model = Task
-    context_object_name = 'tasks'
+    context_object_name = "tasks"
     ordering = "create_date"
     template_name = "todo/list_task.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['tasks'] = context['tasks'].filter(user=self.request.user)
-        context['count'] = context['tasks'].filter(complete=False).count()
-        search_input = self.request.GET.get('search-area') or ''
+        context["tasks"] = context["tasks"].filter(user=self.request.user)
+        context["count"] = context["tasks"].filter(complete=False).count()
+        search_input = self.request.GET.get("search-area") or ""
         if search_input:
-            context['tasks'] = context['tasks'].filter(
-                title__contains=search_input)
+            context["tasks"] = context["tasks"].filter(title__contains=search_input)
 
-        context['search_input'] = search_input
+        context["search_input"] = search_input
 
         return context
 
