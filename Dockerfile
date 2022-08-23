@@ -17,6 +17,6 @@ ENV PYTHONUNBUFFERED=1
 
 # Install pip requirements
 RUN pip3 install --upgrade pip
-RUN python3 -m pip install -r /app/requirements.txt
+RUN python3 -m pip install -r requirements.txt
 
-COPY . /app/
+COPY ./core /app/
