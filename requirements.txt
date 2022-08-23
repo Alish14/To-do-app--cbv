@@ -1,6 +1,23 @@
+#general modules
 django>3.2,<3.3
 python-decouple
 pillow
 djangorestframework
+
+#third party modules
 markdown
 django-filter 
+drf-yasg[validation]
+djangorestframework-simplejwt
+
+
+#deployment modules
+django-mail-templated
+
+#refactorin and text 
+flake8
+black
+pytest
+pytest-django
+
+
