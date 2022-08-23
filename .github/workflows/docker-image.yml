@@ -16,6 +16,8 @@ jobs:
     - uses: actions/checkout@v3
     - name: Set up docker compose
       run: docker compose up -d
+    - name: reformating
+      run: docker exec backend_todo sh -c "black ."
     - name: run tests
-      run: docker exec backend sh -c "pytest ."
+      run: docker exec backend_todo sh -c "pytest ."
      
