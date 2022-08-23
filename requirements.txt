@@ -3,6 +3,7 @@ django>3.2,<3.3
 python-decouple
 pillow
 djangorestframework
+faker
 
 #third party modules
 markdown
