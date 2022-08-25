@@ -10,6 +10,7 @@ markdown
 django-filter 
 drf-yasg[validation]
 djangorestframework-simplejwt
+django-cors-headers
 
 
 #deployment modules
@@ -21,4 +22,8 @@ black
 pytest
 pytest-django
 
+#background proccess and cache
+celery
+Redis
+django_celery_beat
 
