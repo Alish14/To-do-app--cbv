@@ -4,18 +4,7 @@ from celery.schedules import crontab
 app = Celery('core')
 
 
-
-
-
-@app.on_after_configure.connect
-def setup_periodic_tasks(sender, **kwargs):
-    sender.add_periodic_task(
-        crontab(minute=10.0),
-        delete_complete_tasks.s(),
-
-    )
-
-
+@app.task(bind=True)
 def delete_complete_tasks():
     instance = Task.objects.get(complete=True,)
     print(instance)
