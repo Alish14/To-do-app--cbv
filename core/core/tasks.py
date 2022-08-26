@@ -1,10 +1,10 @@
 from todo.models import Task
 from celery import Celery
-from celery.schedules import crontab
+from celery import shared_task
+
 app = Celery('core')
 
-
-@app.task(bind=True)
+@shared_task
 def delete_complete_tasks():
     instance = Task.objects.get(complete=True,)
     print(instance)

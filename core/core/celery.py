@@ -11,6 +11,7 @@ app.config_from_object("django.conf:settings", namespace="CELERY")
 app.autodiscover_tasks()
 app.conf.beat_schedule = {
     'add-every-30-seconds': {
+        'task': 'tasks.delete_complete_tasks',
         'schedule':  crontab(),
     },
 }
